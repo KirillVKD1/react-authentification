@@ -21,8 +21,6 @@ const App = () => {
     progress: undefined,
   };
   const isAllTasksDone = () => {
-    debugger
-
     if (tasksArr.some((e) => e.checked !== true)) {
       setToggleAll(false)
     }
@@ -30,7 +28,6 @@ const App = () => {
       setToggleAll(true);
     } 
   };
-
 
   return (
     <div className="bg">

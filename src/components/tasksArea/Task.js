@@ -8,14 +8,14 @@ const Task = (props) => {
   //NOTIFICATION 
   const deleteNotification = () => props.toast.error((localInputValue.trim()) ? `Task "${localInputValue}" deleted"` : "Empty task deleted", props.toastInf);
   const editModeNotification = (value) => props.toast.info(`Task changed!`, props.toastInf);
-  const checkNotification = (value) => props.toast.success(`Task "${localInputValue}" marked as ${value}!"`, props.toastInf);
+  const checkNotification = (value) => props.toast.success(`Task "${localInputValue}" marked as ${value}!"`, props.toastInf); 
+
 
   const deleteTask = (id) => {
     props.setTasks((arr) => arr.filter(e => (
       e.id !== id
     )));
     deleteNotification()
-
   };
 
   const doubleClickInput = () => {
@@ -23,25 +23,24 @@ const Task = (props) => {
   };
 
   const onInputNewValue = (id) => {
-    setEditMode(false);
-
-    props.setTasks((arr) => arr.map((e) => {
-
-
-      if (e.id === id) {
-
-        return ({ ...e, input: localInputValue })
-      }
-      else {
-        return e;
-      }
-    }));
-
+    setEditMode(false); 
     if (!localInputValue.trim()) {
       deleteTask(id);
-    } else if (localInputValue !== props.element.input) {
-      editModeNotification();
-    }
+    } else if (localInputValue.trim() !== props.element.input) {
+      editModeNotification(); 
+
+      props.setTasks((arr) => arr.map((e) => { 
+        if (e.id === id) {
+          return ({ ...e, input: localInputValue.trim() });
+        }
+        else {
+          return e;
+        }
+    }));
+    }  
+    
+    
+    setLocalInputValue(localInputValue.trim());
   };
 
   const checkTask = (id) => {
@@ -54,11 +53,8 @@ const Task = (props) => {
         return e;
       }
     }));
-
-
-    checkNotification((props.element.checked) ? "not done" : "done")
+    checkNotification((props.element.checked) ? "not done" : "done");
   };
-
 
   const defineKey = (e) => {
     if (e.charCode === 13) onInputNewValue(props.element.id);

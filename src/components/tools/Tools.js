@@ -9,20 +9,6 @@ const Tools = (props) => {
   let tasksLength = tasksArrClone.filter(e => (
     !e.checked));
 
-  // let condition;
-
-  // function someConditionInArr() {
-
-  //   if (props.filterValue === "all") {//все элементы
-  //     return condition = tasksArrClone.length;
-  //   } else if (!props.filterValue) {//не завершенные элементы
-  //     return condition = tasksArrClone.filter((e) => !e.checked).length;
-  //   } else {                        // завершенные элементы
-  //     return condition = tasksArrClone.filter((e) => e.checked).length;
-  //   }
-  // }
-  // someConditionInArr();
-
   const clearCompleted = () => {
     props.setTasks((arr) => arr.filter(e => (
       e.checked === false))

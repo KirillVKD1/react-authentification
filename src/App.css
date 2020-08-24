@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 input::-webkit-input-placeholder {
   color: #e7e7e5;
   font-style: italic;
@@ -20,26 +25,31 @@ input:-ms-input-placeholder {
   color: #e7e7e5;
   font-style: italic;
   font-size: 24px;
-} 
-button:active, button:focus {
+}
+button:active,
+button:focus {
   outline: none;
-} 
+}
 button::-moz-focus-inner {
   border: 0;
-} 
-button:active, button:focus {
+}
+button:active,
+button:focus {
   outline: none !important;
 }
 button::-moz-focus-inner {
   border: 0 !important;
 }
-
+body {
+  overflow-x: hidden; /*для вертикального*/
+}
 
 .bg {
   margin: 0 auto;
   width: 100%;
   min-height: 1000px;
   background-color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .background {
@@ -159,7 +169,7 @@ input {
   color: #514c46;
   font-size: 23px;
   text-align: left;
-  padding-top: 12px;
+  padding-top: 16px;
   overflow-x: hidden;
 }
 
@@ -169,7 +179,7 @@ input {
   font-size: 23px;
   text-decoration: line-through;
   text-align: left;
-  padding-top: 12px;
+  padding-top: 16px;
   overflow-x: hidden;
 }
 
@@ -244,7 +254,8 @@ input {
   margin: 0 auto;
   font-size: 14px;
   border-bottom: 1px #d4d4d4 solid;
-  color: #7e7e7a;
+  color: #7e7e7a; 
+  
 }
 
 .counter {
@@ -274,23 +285,27 @@ input {
   background-color: white;
   width: 40%;
   padding-left: 3%;
-  bottom: 10px;
+  bottom: 10px;  
+  
+ 
 }
 
 .filters div {
   position: relative;
-  height: 25px;
+  height: 20px;
   top: 18%;
   padding-left: 3%;
   padding-right: 3%;
   padding-top: 1%;
   margin-left: 7%;
-  cursor: pointer;
+  cursor: pointer;  
+ 
+  
 }
 
 .border-filter {
   border: 1px solid #e0dcdd;
-  border-radius: 5px;
+  border-radius: 5px;  
 }
 
 .clear-completed {
@@ -334,7 +349,7 @@ input {
   position: relative;
   margin: 0 auto;
   width: 15px;
-  height: 55px;
+  /* height: 55px; */
   bottom: 4px;
   pointer-events: none;
   color: rgb(216, 154, 154);
@@ -346,9 +361,14 @@ input {
 
 .task:hover .delete-symb {
   display: block;
-} 
+}
 
-@media (max-width: 1280px) {
+@media (max-width: 1240px) {
+}
+
+@media (max-width: 1024px) {
+}
+@media (max-width: 768px) {
   .background {
     width: 70%;
   }
@@ -370,6 +390,7 @@ input {
     width: 100%;
     margin: 0 auto;
     position: unset;
+    padding: 0;
   }
 
   .tools :nth-child(1) :after {
@@ -391,17 +412,22 @@ input {
     background-color: #e4e4e4;
     content: "";
   }
+  .filters div {
+    margin: 0 5px;
+    padding-top: 5px; 
+    margin-bottom: 7px;
+  }
 
   .counter {
     height: 27px;
-  }  
-
-  .clear-completed{  
-    border-bottom:#d4d4d4 1px solid;
   }
-} 
 
-@media (max-width: 550px) {
+  .clear-completed {
+    border-bottom: #d4d4d4 1px solid;
+  }
+}
+
+@media (max-width: 320px) {
   .background {
     width: 100%;
   }

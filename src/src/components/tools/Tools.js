@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Tools = (props) => {
-  debugger
+  
 
   const clearDoneTasksNotification = (value) => props.toast.info(value, props.toastInf);
   let tasksArrClone = props.tasksArr.slice();//slice без аргументов создает поверхностную копию массива.    

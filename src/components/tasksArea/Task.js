@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const Task = (props) => {
-  debugger
 
   const [localInputValue, setLocalInputValue] = useState(props.element.input);
   const [editMode, setEditMode] = useState(false);

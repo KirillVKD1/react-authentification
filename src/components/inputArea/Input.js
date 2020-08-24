@@ -8,7 +8,7 @@ const Input = (props) => {
   const [inputValue, setInputValue] = useState('');
   const [idValue, setIdValue] = useState(0);
 
-  const addTask = (e) => {debugger
+  const addTask = (e) => {
 
     if (inputValue.trim().length) {
       let newObjTask = { id: idValue, input: inputValue.trim(), checked: false };

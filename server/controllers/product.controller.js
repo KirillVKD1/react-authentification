@@ -1,35 +1,63 @@
 const Product = require("../models/product.model");
 
-exports.product_create = function (req, res) {
-    let product = new Product(
-        {
-            input: req.body.input,
-            checked: req.body.checked
-        }
-    );
-
-    product.save(function (err) {
-        if (err) {
-            return next(err);
-        }
-        res.send('Product Created successfully')
+exports.product_get = (req, res) => {
+    Product.find(function (err, arr) {
+        console.log('err', err)
+        res.json(arr)
     });
-}; 
-
-exports.test = function (req, res) {
-    res.send('Greetings from the Test controller!');
-}; 
-
-exports.product_update = function (req, res) {
-    Product.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, product) {
-        if (err) return next(err);
-        res.send('Product udpated.');
-    });
-};  
-
-exports.product_delete = function (req, res) {
-    Product.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
-        res.send('Deleted successfully!');
-    })
 };
+
+
+exports.create_update = (req, res) => {
+    const data = {
+        id: req.body.id,
+        input: req.body.input,
+        checked: req.body.checked,
+    };
+    Product.findOne({ _id: req.body.id }, (err, post) => {
+        if (post) {
+            Product.findByIdAndUpdate(req.body.id, data, { upsert: false }).then(
+                updated => {
+                    res.json(updated);
+                }
+            );
+        } else {
+            Product.create(data).then(created => {
+                res.json(created);
+            });
+        }
+    });
+};
+
+exports.delete_one = (req, res) => {
+
+    Product.findByIdAndDelete(req.params.id).then(post => {
+        res.json({ message: "Your post was deleted!" });
+    });
+};
+
+exports.check_all = (req, res) => {
+    Product.updateMany({ checked: !req.body.checked }, { $set: { checked: req.body.checked } }, { multi: true }, (err, result) => {
+
+        if (err) {
+            res.status(500).send(err);
+        }
+
+        res.send(result)
+    });
+};
+
+exports.delete_all = (req, res) => {
+
+    Product.deleteMany({ checked: true }, { multi: true }, (err, result) => {
+
+        if (err) {
+            res.status(500).send(err);
+        }
+
+        res.send(result)
+    });
+};
+
+
+

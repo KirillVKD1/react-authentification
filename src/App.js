@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Input from './components/inputArea/Input.js';
 import TasksArea from './components/tasksArea/TasksArea.js';
 import Tools from './components/tools/Tools.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API } from './api';
 
 const App = () => {
   const [tasksArr, setTasks] = useState([]);
   const [toggleAllValue, setToggleAll] = useState(false);
   const [filterValue, setFilter] = useState("all");
+
+
+  useEffect(() => {
+    async function fetch() {
+      let response = await API.getTasks(); debugger
+      setTasks(response.data.map((obj) => obj));
+    }
+    fetch();
+  }, {});// componentDidMount
 
   const toastInf = {
     position: "top-right",
@@ -22,9 +32,9 @@ const App = () => {
   };
   const isAllTasksDone = () => {
     if (tasksArr.some((e) => e.checked !== true)) {
-      setToggleAll(false)
+      setToggleAll(false);
     }
-    else if (tasksArr.length) {
+    else if (tasksArr.length) { 
       setToggleAll(true);
     }
   };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API } from '../../api';
 
 const Task = (props) => {
 
@@ -6,62 +7,88 @@ const Task = (props) => {
   const [editMode, setEditMode] = useState(false);
   //NOTIFICATION 
   const deleteNotification = () => props.toast.error((localInputValue.trim()) ? `Task "${localInputValue}" deleted"` : "Empty task deleted", props.toastInf);
-  const editModeNotification = (value) => props.toast.info(`Task changed!`, props.toastInf);
-  const checkNotification = (value) => props.toast.success(`Task "${localInputValue}" marked as ${value}!"`, props.toastInf); 
+  const taskChangeNotification = () => props.toast.info(`Task changed!`, props.toastInf);
+  const checkNotification = (value) => props.toast.success(`Task "${localInputValue}" marked as ${value}!"`, props.toastInf);
 
 
-  const deleteTask = (id) => {
-    props.setTasks((arr) => arr.filter(e => (
-      e.id !== id
-    )));
-    deleteNotification()
+  const deleteTask = (id) => {                         /////////////////////////
+
+    async function fetch() {
+      let response = await API.deleteTask(id);
+      if (response.statusText === "OK") {
+
+        props.setTasks((arr) => arr.filter(obj => (
+          obj._id !== id
+        )));
+        deleteNotification();
+      }
+    }
+    fetch();
   };
 
   const doubleClickInput = () => {
     setEditMode(true);
   };
 
-  const onInputNewValue = (id) => {
-    setEditMode(false); 
+  const onInputNewValue = (id) => {/////////////////////////// 
+
+    setEditMode(false);
     if (!localInputValue.trim()) {
       deleteTask(id);
     } else if (localInputValue.trim() !== props.element.input) {
-      editModeNotification(); 
 
-      props.setTasks((arr) => arr.map((e) => { 
-        if (e.id === id) {
-          return ({ ...e, input: localInputValue.trim() });
+      async function fetch() {
+
+        let response = await API.updateTask(id, localInputValue.trim(), props.element.checked);
+
+        if (response.statusText === "OK") {
+
+          props.setTasks((arr) => arr.map((e) => {
+            if (e._id === id) {
+              return ({ ...e, input: localInputValue.trim() });
+            }
+            else {
+              return e;
+            }
+          }));
+          taskChangeNotification();
         }
-        else {
-          return e;
-        }
-    }));
-    }  
-    
-    
+      }
+      fetch();
+    }
     setLocalInputValue(localInputValue.trim());
   };
 
-  const checkTask = (id) => {
-    props.setTasks((arr) => arr.map(e => { //берет каждый элемент массива(каждый объект)
-      if (e.id === id) { //если id объекта равен id элемента  
-        let value = e.checked;
-        return ({ ...e, checked: !value })
+
+  const checkTask = (id) => {///////////////////////////////////////
+
+    async function fetch() {
+      let response = await API.updateTask(id, localInputValue.trim(), !props.element.checked);
+
+      if (response.statusText === "OK") {
+
+        props.setTasks((arr) => arr.map(obj => { //берет каждый элемент массива(каждый объект)
+          if (obj._id === id) { //если id объекта равен id элемента  
+            let value = obj.checked;
+            return ({ ...obj, checked: !value })
+          }
+          else { //все остальные объекты
+            return obj;
+          }
+        }));
+        checkNotification((props.element.checked) ? "not done" : "done");
       }
-      else { //все остальные объекты
-        return e;
-      }
-    }));
-    checkNotification((props.element.checked) ? "not done" : "done");
+    }
+    fetch();
   };
 
   const defineKey = (e) => {
-    if (e.charCode === 13) onInputNewValue(props.element.id);
+    if (e.charCode === 13) onInputNewValue(props.element._id);
   };
 
   return (
     <div className="task">
-      <div className="task-checkbox" onClick={() => checkTask(props.element.id)}>
+      <div className="task-checkbox" onClick={() => checkTask(props.element._id)}>
         <div className={(props.element.checked) ? "check-cirlcle-active" : "check-cirlcle"}>
           <div className={(props.element.checked) ? "check-mark-active" : null}></div>
         </div>
@@ -70,13 +97,13 @@ const Task = (props) => {
         <input
           autoFocus={true}
           onInput={(e) => setLocalInputValue(e.target.value)}
-          onBlur={() => onInputNewValue(props.element.id)}
+          onBlur={() => onInputNewValue(props.element._id)}
           onKeyPress={(e) => defineKey(e)}
           value={localInputValue}
           className={(props.element.checked) ? "task-input-done" : "task-input"} /> :
         <div onDoubleClick={() => doubleClickInput()}
           className={(props.element.checked) ? "task-input-done" : "task-input"}> {localInputValue}</div>}
-      <button className="task-delete" onClick={() => deleteTask(props.element.id)}><div className="delete-symb">+</div></button>
+      <button className="task-delete" onClick={() => deleteTask(props.element._id)}><div className="delete-symb">+</div></button>
     </div>);
 }
 

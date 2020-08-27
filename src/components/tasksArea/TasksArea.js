@@ -8,7 +8,7 @@ const TasksArea = (props) => {
       {props.tasksArr.map(element => {
         if (props.filterValue === "all") {
           return <Task
-            key={element.id}
+            key={element._id}
             element={element}
             setTasks={props.setTasks}
             toast={props.toast}
@@ -17,7 +17,7 @@ const TasksArea = (props) => {
         }
         else {
           return (element.checked === props.filterValue) ? <Task
-            key={element.id}
+            key={element._id}
             element={element}
             setTasks={props.setTasks}
             toast={props.toast}

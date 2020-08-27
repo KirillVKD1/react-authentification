@@ -1,7 +1,8 @@
 import React from 'react';
+import { API } from '../../api';
 
 const Tools = (props) => {
-  
+
 
   const clearDoneTasksNotification = (value) => props.toast.info(value, props.toastInf);
   let tasksArrClone = props.tasksArr.slice();//slice без аргументов создает поверхностную копию массива.    
@@ -10,14 +11,21 @@ const Tools = (props) => {
     !e.checked));
 
   const clearCompleted = () => {
-    props.setTasks((arr) => arr.filter(e => (
-      e.checked === false))
-    );
-    if (tasksLength === props.tasksArr.length) {
-      clearDoneTasksNotification("No completed tasks!");
-    } else {
-      clearDoneTasksNotification("All completed tasks deleted!");
+    async function fetch() {
+      let response = await API.deleteAll();
+      if (response.statusText === "OK") {
+
+        props.setTasks((arr) => arr.filter(e => (
+          e.checked === false))
+        );
+        if (tasksLength === props.tasksArr.length) {
+          clearDoneTasksNotification("No completed tasks!");
+        } else {
+          clearDoneTasksNotification("All completed tasks deleted!");
+        }
+      }
     }
+    fetch();
   };
 
   return (

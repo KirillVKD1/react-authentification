@@ -6,8 +6,6 @@ exports.product_get = (req, res) => {
         res.json(arr)
     });
 };
-
-
 exports.create_update = (req, res) => {
     const data = {
         id: req.body.id,
@@ -28,14 +26,12 @@ exports.create_update = (req, res) => {
         }
     });
 };
-
 exports.delete_one = (req, res) => {
 
     Product.findByIdAndDelete(req.params.id).then(post => {
         res.json({ message: "Your post was deleted!" });
     });
 };
-
 exports.check_all = (req, res) => {
     Product.updateMany({ checked: !req.body.checked }, { $set: { checked: req.body.checked } }, { multi: true }, (err, result) => {
 
@@ -46,7 +42,6 @@ exports.check_all = (req, res) => {
         res.send(result)
     });
 };
-
 exports.delete_all = (req, res) => {
 
     Product.deleteMany({ checked: true }, { multi: true }, (err, result) => {

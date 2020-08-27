@@ -14,32 +14,33 @@ export const API = {
                 return response;
             });
     },
-    deleteTask(id) {
-        return instance.post(`/${id}`)
-            .then(response => {
-                return response;
-            });
-    },
+
     postTask(input) {
-        return instance.post("/", { input: input })//CREATE//UPDATE
+        return instance.post("/updated/", { input: input })//CREATE//UPDATE - input
             .then(response => {
                 return response;
             });
     },
     updateTask(id, input, checked) {
-        return instance.post("/", { id: id, input: input, checked: checked })//CREATE//UPDATE
+        return instance.post("/updated/", { id: id, input: input, checked: checked })//UNPDATE- checked
             .then(response => {
                 return response;
             });
     },
     checkAll(value) {
-        return instance.put("/", { checked: value })
+        return instance.put("/all/checked/", { checked: value })
+            .then(response => {
+                return response;
+            });
+    },
+    deleteTask(id) {
+        return instance.post(`/${id}/deleted/`)
             .then(response => {
                 return response;
             });
     },
     deleteAll() {
-        return instance.put("/delete/")
+        return instance.put("/all/deleted")
             .then(response => {
                 return response;
             });

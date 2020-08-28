@@ -85,6 +85,19 @@ input {
   position: relative;
   bottom: 20px;
 }
+.login {
+  width: 100%;
+  min-height: 1000px;
+  display: block;
+}
+.login-inputs { 
+  display: flex; 
+  font-size: 20px;
+  width: 35%;
+  height: 30px;
+  border: 1px #666668 solid;
+  margin: 0 auto;
+}
 
 .input-area {
   display: flex;
@@ -254,8 +267,7 @@ input {
   margin: 0 auto;
   font-size: 14px;
   border-bottom: 1px #d4d4d4 solid;
-  color: #7e7e7a; 
-  
+  color: #7e7e7a;
 }
 
 .counter {
@@ -285,9 +297,7 @@ input {
   background-color: white;
   width: 40%;
   padding-left: 3%;
-  bottom: 10px;  
-  
- 
+  bottom: 10px;
 }
 
 .filters div {
@@ -298,14 +308,12 @@ input {
   padding-right: 3%;
   padding-top: 1%;
   margin-left: 7%;
-  cursor: pointer;  
- 
-  
+  cursor: pointer;
 }
 
 .border-filter {
   border: 1px solid #e0dcdd;
-  border-radius: 5px;  
+  border-radius: 5px;
 }
 
 .clear-completed {
@@ -363,11 +371,6 @@ input {
   display: block;
 }
 
-@media (max-width: 1240px) {
-}
-
-@media (max-width: 1024px) {
-}
 @media (max-width: 768px) {
   .background {
     width: 70%;
@@ -414,7 +417,7 @@ input {
   }
   .filters div {
     margin: 0 5px;
-    padding-top: 5px; 
+    padding-top: 5px;
     margin-bottom: 7px;
   }
 
@@ -428,15 +431,18 @@ input {
 }
 
 @media (max-width: 320px) {
+  .bg {
+    min-width: 320px;
+  }
   .background {
-    width: 100%;
+    min-width: 70%;
   }
 
   .shadowDiv {
-    width: 98%;
+    min-width: 69%;
   }
 
   .shadowDivLast {
-    width: 97%;
+    min-width: 68%;
   }
 }

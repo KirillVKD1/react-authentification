@@ -1,20 +1,31 @@
 import * as axios from 'axios';
-
 const instance = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
-    baseURL: 'http://localhost:3001/api/posts',//bwithCredentials: true, //authorized = true  
+    baseURL: 'http://localhost:3010/api/posts',//bwithCredentials: true, //authorized = true  
+}); 
 
+const instance2 = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
+    baseURL: 'http://localhost:3010/api/users',//bwithCredentials: true, //authorized = true  
 });
-
-
 export const API = {
-
+     
+    singUpPost(email,password) {
+        return instance2.post("/auth/signUp", { email: email, password: password })
+            .then(response => {
+                return response;
+            });
+    },
+    authMe(email, password) {
+        return instance2.get("/auth", { email: email, password: password })
+            .then(response => {
+                return response;
+            });
+    },
     getTasks() {
         return instance.get("/")
             .then(response => {
                 return response;
             });
     },
-
     postTask(input) {
         return instance.post("/updated/", { input: input })//CREATE//UPDATE - input
             .then(response => {

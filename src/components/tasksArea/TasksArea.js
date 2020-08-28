@@ -2,7 +2,6 @@ import React from 'react';
 import Task from './Task';
 
 const TasksArea = (props) => {
-
   return (
     <div className="tasks-area">
       {props.tasksArr.map(element => {
@@ -28,5 +27,4 @@ const TasksArea = (props) => {
       )}
     </div>)
 };
-
 export default TasksArea;

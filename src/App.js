@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Login from './components/Login/Login';
 import Input from './components/inputArea/Input.js';
 import TasksArea from './components/tasksArea/TasksArea.js';
 import Tools from './components/tools/Tools.js';
@@ -8,19 +9,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { API } from './api';
 
 const App = () => {
+  const [isAuth, setAuth] = useState(false);
   const [tasksArr, setTasks] = useState([]);
   const [toggleAllValue, setToggleAll] = useState(false);
   const [filterValue, setFilter] = useState("all");
-
-
-  useEffect(() => {
-    async function fetch() {
-      let response = await API.getTasks(); debugger
-      setTasks(response.data.map((obj) => obj));
-    }
-    fetch();
-  }, {});// componentDidMount
-
   const toastInf = {
     position: "top-right",
     autoClose: 5000,
@@ -30,57 +22,69 @@ const App = () => {
     draggable: true,
     progress: undefined,
   };
-  const isAllTasksDone = () => {
+
+  useEffect(() => { 
+    
+    if (isAuth) {
+      async function fetch() {
+        let response = await API.getTasks();
+        setTasks(response.data.map((obj) => obj));
+      }
+      fetch();
+    }
+  }, {});// componentDidMount 
+
+  useEffect(() => {
     if (tasksArr.some((e) => e.checked !== true)) {
       setToggleAll(false);
     }
-    else if (tasksArr.length) { 
+    else if (tasksArr.length) {
       setToggleAll(true);
     }
-  };
+  }, [tasksArr]);
 
-  return (
-    <div className="bg">
+  if (!isAuth) {
+    return (
+      <>
+        <Login />
+      </>
+    )
+  } else {
+    return (
 
-      <div className="tittle-div"><p>todos</p></div>
-      <div className="background">
-
-        <Input
-          setTasks={setTasks}
-          tasksArr={tasksArr}
-          toggleAllValue={toggleAllValue}
-          setToggleAll={setToggleAll}
-          toast={toast}
-          toastInf={toastInf}
-          isAllTasksDone={isAllTasksDone}
-        />
-
-        <TasksArea
-          setTasks={setTasks}
-          tasksArr={tasksArr}
-          filterValue={filterValue}
-          toast={toast}
-          toastInf={toastInf}
-          isAllTasksDone={isAllTasksDone}
-        />
-        {(tasksArr.length) ?
-
-          <Tools
+      < div className="bg" >
+        <div className="tittle-div"><p>todos</p></div>
+        <div className="background">
+          <Input
             setTasks={setTasks}
             tasksArr={tasksArr}
-            setFilter={setFilter}
+            toggleAllValue={toggleAllValue}
+            setToggleAll={setToggleAll}
+            toast={toast}
+            toastInf={toastInf}
+          />
+          <TasksArea
+            setTasks={setTasks}
+            tasksArr={tasksArr}
             filterValue={filterValue}
             toast={toast}
             toastInf={toastInf}
-
-          /> : null}
-
-      </div>
-      {(tasksArr.length) ? <><div className="shadowDiv"></div><div className="shadowDivLast"></div></> : null}
-      <ToastContainer />
-    </div>
-
-  )
+          />
+          {(tasksArr.length) ?
+            <Tools
+              setTasks={setTasks}
+              tasksArr={tasksArr}
+              setFilter={setFilter}
+              filterValue={filterValue}
+              toast={toast}
+              toastInf={toastInf}
+            /> : null}
+        </div>
+        {(tasksArr.length) ? <><div className="shadowDiv"></div><div className="shadowDivLast"></div></> : null}
+        <ToastContainer />
+      </div >
+    )
+  }
 }
 
 export default App;

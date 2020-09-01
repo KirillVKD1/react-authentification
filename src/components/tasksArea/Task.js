@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { API } from '../../api';
 
-const Task = (props) => { 
-  
+const Task = (props) => {
+
   const [localInputValue, setLocalInputValue] = useState(props.element.input);
   const [editMode, setEditMode] = useState(false);
   const deleteNotification = () => props.toast.error((localInputValue.trim()) ? `Task "${localInputValue}" deleted"` : "Empty task deleted", props.toastInf);
   const taskChangeNotification = () => props.toast.info(`Task changed!`, props.toastInf);
   const checkNotification = (value) => props.toast.success(`Task "${localInputValue}" marked as ${value}!"`, props.toastInf);
-  const deleteTask = (id) => {
-    async function fetch() {
-      let response = await API.deleteTask(id);
-      if (response.statusText === "OK") {
-        props.setTasks((arr) => arr.filter((obj) => (
-          obj._id !== id
-        )));
-        deleteNotification();
-      }
-    }
-    fetch();
+  const deleteTask = async (id) => {
+
+    props.setTasks((arr) => arr.filter((obj) => (
+      obj._id !== id
+    )));
+    await API.deleteTask(id);
+
+    deleteNotification();
+
   };
   const onNewInputValue = (id) => {
     setEditMode(false);
@@ -26,8 +24,10 @@ const Task = (props) => {
       deleteTask(id);
     } else if (localInputValue.trim() !== props.element.input) {
       async function fetch() {
+      
         let response = await API.updateTask(id, localInputValue.trim(), props.element.checked);
         if (response.statusText === "OK") {
+      
           props.setTasks((arr) => arr.map((obj) => {
             if (obj._id === id) {
               return ({ ...obj, input: localInputValue.trim() });

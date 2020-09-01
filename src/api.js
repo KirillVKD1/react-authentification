@@ -1,21 +1,32 @@
 import * as axios from 'axios';
+
+const token = JSON.parse(window.localStorage.getItem('userData')).token; 
+alert(token)
+//const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkMjMzYjQ5NTA0ODMwMmUzNWU0ZTAiLCJpYXQiOjE1OTg5NTE5NTYsImV4cCI6MTU5ODk1NTU1Nn0.vWs_IqWDXk3kfpWfdPet5P9Fr1Vanzi00F_HyrlnrKM";
 const instance = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
-    baseURL: 'http://localhost:3010/api/posts',//bwithCredentials: true, //authorized = true  
-}); 
+
+    baseURL: 'http://localhost:3010/api/posts',//bwithCredentials: true, //authorized = true    
+    headers: { 'authorization': token },
+
+
+});
 
 const instance2 = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
-    baseURL: 'http://localhost:3010/api/users',//bwithCredentials: true, //authorized = true  
+    baseURL: 'http://localhost:3010/api',//bwithCredentials: true, //authorized = true    
+
 });
+
 export const API = {
-     
-    singUpPost(email,password) {
-        return instance2.post("/auth/signUp", { email: email, password: password })
+
+
+    singUpPost(email, password) {
+        return instance2.post("/register", { email: email, password: password })
             .then(response => {
                 return response;
             });
     },
     authMe(email, password) {
-        return instance2.get("/auth", { email: email, password: password })
+        return instance2.post("/login", { email: email, password: password })
             .then(response => {
                 return response;
             });
@@ -26,8 +37,8 @@ export const API = {
                 return response;
             });
     },
-    postTask(input) {
-        return instance.post("/updated/", { input: input })//CREATE//UPDATE - input
+    postTask(input,) {
+        return instance.post("/updated", { input: input })//CREATE//UPDATE - input
             .then(response => {
                 return response;
             });

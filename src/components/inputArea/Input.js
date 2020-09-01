@@ -1,27 +1,30 @@
-import React, { useState} from 'react';
+import React, { useState, useContext } from 'react';
 import { API } from '../../api';
+import { AuthContext } from '../Context/AuthContext';
 
 const Input = (props) => {
 
   const addNotification = () => props.toast.success(`Task "${inputValue}" added!`, props.toastInf);//NOTIFICATION 
   const checkAllNotification = (value) => props.toast.info(`All tasks marked as ${value}!`, props.toastInf);
   const [inputValue, setInputValue] = useState('');
-  const addTask = (e) => {
+  const auth = useContext(AuthContext);
+  const addTask = async (e) => {
+    debugger
     if (inputValue.trim().length) {
-      async function fetch() {
-        let response = await API.postTask(inputValue.trim());
-        if (response.statusText === "OK") {
-          let newObjTask = { _id: response.data._id, input: inputValue.trim(), checked: false };
-          props.setTasks((arr) => [...arr, newObjTask]);
-          setInputValue("");
-          addNotification();
-        } else {
-          setInputValue("");
-        }
-      }
-      fetch();
+
+      const response = await API.postTask(inputValue.trim());  
+      
+
+      let newObjTask = { _id: response.data._id, input: inputValue.trim(), checked: false };
+      props.setTasks((arr) => [...arr, newObjTask]);
+
+      //setInputValue("");
+      addNotification();
+      // } else {
+      //   setInputValue("");
+      //  }
     }
-  }; 
+  };
   const checkAllTasks = (value) => {
     async function fetch() {
       let response = await API.checkAll(value);
@@ -30,7 +33,7 @@ const Input = (props) => {
       }
     }
     fetch();
-  };  
+  };
   const checkAllCondition = () => {
     (props.toggleAllValue) ? checkAllTasks(false) : checkAllTasks(true);
     (props.toggleAllValue) ? checkAllNotification("not done") : checkAllNotification("done");
@@ -40,6 +43,7 @@ const Input = (props) => {
   return (
     <>
       <div className="input-area">
+        <button onClick={() => auth.logout()}>LOGOUT</button>
         {(props.tasksArr.length) ? <div className="check-all" onClick={() => checkAllCondition()}>
           <><div className={(props.toggleAllValue) ? "chek-symb-first-active" : "chek-symb-first"}  ></div>
             <div className={(props.toggleAllValue) ? "chek-symb-second-active" : "chek-symb-second"} ></div></>

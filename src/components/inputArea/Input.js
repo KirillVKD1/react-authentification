@@ -9,20 +9,23 @@ const Input = (props) => {
   const [inputValue, setInputValue] = useState('');
   const auth = useContext(AuthContext);
   const addTask = async (e) => {
-    debugger
+
     if (inputValue.trim().length) {
 
-      const response = await API.postTask(inputValue.trim());  
-      
+      let response = await API.postTask(inputValue.trim());
 
-      let newObjTask = { _id: response.data._id, input: inputValue.trim(), checked: false };
-      props.setTasks((arr) => [...arr, newObjTask]);
+      if (response.statusText === "OK") {
 
-      //setInputValue("");
-      addNotification();
-      // } else {
-      //   setInputValue("");
-      //  }
+        let newObjTask = {
+          _id: response.data._id,
+          input: inputValue.trim(),
+          checked: false
+        };
+
+        props.setTasks((arr) => [...arr, newObjTask]);
+        setInputValue("");
+        addNotification();
+      }
     }
   };
   const checkAllTasks = (value) => {
@@ -35,19 +38,33 @@ const Input = (props) => {
     fetch();
   };
   const checkAllCondition = () => {
-    (props.toggleAllValue) ? checkAllTasks(false) : checkAllTasks(true);
-    (props.toggleAllValue) ? checkAllNotification("not done") : checkAllNotification("done");
-    let value = props.toggleAllValue;
-    props.setTasks((arr) => arr.map((obj) => ({ ...obj, checked: !value })));
+
+    (props.toggleAllValue) ?
+      checkAllTasks(false) :
+      checkAllTasks(true);
+
+    (props.toggleAllValue) ?
+      checkAllNotification("not done") :
+      checkAllNotification("done");
+
+    props.setTasks((arr) => arr.map((obj) => ({ ...obj, checked: !props.toggleAllValue })));
   };
   return (
     <>
+      <div className="logout">{auth.userEmail}<button className="logoutButton" onClick={() => auth.logout()}>logout</button></div>
       <div className="input-area">
-        <button onClick={() => auth.logout()}>LOGOUT</button>
-        {(props.tasksArr.length) ? <div className="check-all" onClick={() => checkAllCondition()}>
-          <><div className={(props.toggleAllValue) ? "chek-symb-first-active" : "chek-symb-first"}  ></div>
-            <div className={(props.toggleAllValue) ? "chek-symb-second-active" : "chek-symb-second"} ></div></>
-        </div> : <div className="check-all"></div>}
+
+
+        {(props.tasksArr.length) ?
+          <div className="check-all" onClick={() => checkAllCondition()}>
+            <><div className={(props.toggleAllValue) ?
+              "chek-symb-first-active" :
+              "chek-symb-first"}  ></div>
+
+              <div className={(props.toggleAllValue) ?
+                "chek-symb-second-active" :
+                "chek-symb-second"} ></div></>
+          </div> : <div className="check-all"></div>}
         <input className="task-create-input" onBlur={(e) => setTimeout(() => setInputValue(""), 200)} onKeyPress={(e) => (e.charCode === 13) ? addTask(e) : null} onChange={(e) => setInputValue(e.target.value)} value={inputValue} placeholder="What needs to be done?" />
         <button onClick={(e) => addTask(e)} className="task-add">Add</button>
       </div>

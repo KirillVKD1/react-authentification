@@ -25,7 +25,7 @@ router.put("/api/posts/all/checked", auth, product_controller.check_all);//check
 router.put("/api/posts/all/deleted", auth, product_controller.delete_all);//deleteall  
 
 
-/////////USERS///////////
+/////////USERS//////////
 
 router.post(
     "/api/register",
@@ -96,7 +96,8 @@ router.post("/api/login",
                 config.get('jwtSecret'),
                 { expiresIn: '1h' }
             );
-            res.json({ token, userId: user.id });
+
+            res.json({ token, userId: user.id, userEmail: user.email });
 
 
         } catch (e) {

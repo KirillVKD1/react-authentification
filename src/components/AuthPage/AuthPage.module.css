@@ -1,0 +1,33 @@
+.inputFlex{ 
+  display: block;  
+  width: 100%;
+} 
+.authInput { 
+  height: 50px;
+  padding-top: 5px;
+  padding-left: 12px;
+  width: 100%;
+  color: #514c46;
+  font-size: 23px;
+  text-align: left;
+  overflow-x: hidden;
+} 
+.authInputArea {
+  display: flex;
+  height: 67px; 
+  width: 100%;
+  border-bottom: #e4e4e4 2px solid;
+  background-color: white;
+} 
+.authAction {
+  width: 20%;
+  min-width: 100px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 5px;
+  color: #8ac2b7; 
+  background-color: transparent; 
+  margin: 5px;
+  border:1px solid #e4e4e4;
+  cursor: pointer;
+}

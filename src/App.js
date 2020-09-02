@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Login from './components/Login/Login';
+import AuthPage from './components/AuthPage/AuthPage';
 import Input from './components/inputArea/Input.js';
 import TasksArea from './components/tasksArea/TasksArea.js';
 import Tools from './components/tools/Tools.js';
@@ -11,13 +11,16 @@ import { useAuth } from './components/Auth/auth';
 import { AuthContext } from './components/Context/AuthContext';
 
 const App = () => {
-  debugger
 
-  const { token, login, logout, userId } = useAuth();
-  const isAuth = !!token;//became boolean
+  const { token, login, logout, userId, userEmail } = useAuth();
+  const isAuth = !!token;//!! boolean  
+
   const [tasksArr, setTasks] = useState([]);
+
   const [toggleAllValue, setToggleAll] = useState(false);
   const [filterValue, setFilter] = useState("all");
+
+
   const toastInf = {
     position: "top-right",
     autoClose: 5000,
@@ -27,15 +30,15 @@ const App = () => {
     draggable: true,
     progress: undefined,
   };
+  const onChangeTasks = async () => {
+    let response = await API.getTasks();
+    setTasks(response.data.map((obj) => obj));
+  };
 
   useEffect(() => {
-    async function fetch() {debugger
-      let response = await API.getTasks();
-      setTasks(response.data.map((obj) => obj));
-    }
-    fetch();
+    onChangeTasks(); 
 
-  }, {});// componentDidMount 
+  }, []);// componentDidMount 
 
   useEffect(() => {
     if (tasksArr.some((e) => e.checked !== true)) {
@@ -44,6 +47,7 @@ const App = () => {
     else if (tasksArr.length) {
       setToggleAll(true);
     }
+
   }, [tasksArr]);
 
   if (!isAuth) {
@@ -51,21 +55,31 @@ const App = () => {
       <>
         <AuthContext.Provider
           value={{ token, login, logout, userId, isAuth }}>
-          <Login
-            toast={toast}
-            toastInf={toastInf} />
-          <ToastContainer />
-        </AuthContext.Provider>
+          < div className="bg" >
+            <div className="tittle-div"><p>todos</p></div>
+            <div className="background">
+              <AuthPage
+                onChangeTasks={onChangeTasks}
+                toast={toast}
+                toastInf={toastInf}
+              />
+
+              <ToastContainer />
+            </ div>
+          </ div>
+
+        </AuthContext.Provider >
       </>
     )
   } else {
     return (
-      <AuthContext.Provider value={{ token, login, logout, userId, isAuth }}>
+      <AuthContext.Provider value={{ token, login, logout, userId, isAuth, userEmail }}>
         < div className="bg" >
           <div className="tittle-div"><p>todos</p></div>
           <div className="background">
 
             <Input
+
               token={token}
               setTasks={setTasks}
               tasksArr={tasksArr}

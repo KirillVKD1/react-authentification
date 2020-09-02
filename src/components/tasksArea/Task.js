@@ -18,28 +18,26 @@ const Task = (props) => {
     deleteNotification();
 
   };
-  const onNewInputValue = (id) => {
+  const onNewInputValue = async (id) => {
     setEditMode(false);
     if (!localInputValue.trim()) {
       deleteTask(id);
     } else if (localInputValue.trim() !== props.element.input) {
-      async function fetch() {
-      
-        let response = await API.updateTask(id, localInputValue.trim(), props.element.checked);
-        if (response.statusText === "OK") {
-      
-          props.setTasks((arr) => arr.map((obj) => {
-            if (obj._id === id) {
-              return ({ ...obj, input: localInputValue.trim() });
-            }
-            else {
-              return obj;
-            }
-          }));
-          taskChangeNotification();
-        }
+
+      let response = await API.updateTask(id, localInputValue.trim(), props.element.checked);
+      if (response.statusText === "OK") {
+
+        props.setTasks((arr) => arr.map((obj) => {
+          if (obj._id === id) {
+            return ({ ...obj, input: localInputValue.trim() });
+          }
+          else {
+            return obj;
+          }
+        }));
+        taskChangeNotification();
       }
-      fetch();
+
     }
     setLocalInputValue(localInputValue.trim());
   };

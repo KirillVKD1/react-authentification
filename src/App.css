@@ -43,7 +43,22 @@ button::-moz-focus-inner {
 body {
   overflow-x: hidden; /*для вертикального*/
 }
-
+.logout {
+  text-align: right; 
+  height: 20px; 
+  padding: 5px; 
+  border-bottom: 1px solid #f3f1f1;
+  color: #8ac2b7;
+}
+.logoutButton {
+  font-size: 18px;
+  color: #dfc2c2;
+  width: 80px;
+  height: 22px;
+  border-left: 1px solid rgb(221, 209, 209); 
+  margin-left:12px ;
+  cursor: pointer;
+}
 .bg {
   margin: 0 auto;
   width: 100%;
@@ -53,12 +68,14 @@ body {
 }
 
 .background {
-  background-color: #f5f5f7;
+  background-color: white;
   width: 550px;
   margin: 0 auto;
   color: black;
   text-align: center;
   box-shadow: 1px 15px 20px 0px #cccccc;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 button {
@@ -86,12 +103,15 @@ input {
   bottom: 20px;
 }
 .login {
+  position: relative;
   width: 100%;
-  min-height: 1000px;
   display: block;
+  float: left;
+  background-color: #f5f5f7;
+  cursor: pointer;
 }
-.login-inputs { 
-  display: flex; 
+.login-inputs {
+  display: flex;
   font-size: 20px;
   width: 35%;
   height: 30px;

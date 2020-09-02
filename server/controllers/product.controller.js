@@ -7,19 +7,31 @@ exports.product_get = async (req, res) => {
         console.log(req.user.userId);
         const tasks = await Product.find({ owner: req.user.userId });
         res.json(tasks);
+        res.send(tasks)
+
     } catch (e) {
         res.status(500).json({ message: "something goes wrong" });
 
     }
 };
 
-exports.create_update = (req, res) => { 
+exports.create_update = (req, res) => {
 
-    Product.findOne({ _id: req.body.id, owner: req.user.userId }, (err, post) => {
-        if (post) { 
-            console.log(`@@@@@@@@@@@@${post}`) 
-            console.log(`@@@@@@@@@@@@${req.body.id}`)
-            post.updateOne({ _id: req.body.id, owner: req.user.userId }, { $set: { _id: req.body.id, input: req.body.input, checked: req.body.checked } }, { multi: true });
+
+    Product.findOne({ _id: req.body.id, owner: req.user.userId }, async (err, post) => {
+
+
+        if (post) {
+
+            await Product.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
+                (err, result) => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.send(result);
+                    return result;
+                });
+
 
         } else {
 
@@ -29,7 +41,11 @@ exports.create_update = (req, res) => {
                 checked: req.body.checked,
                 owner: req.user.userId
             });
+
             task.save();
+            res.send(task)
+
+
         }
     });
 };
@@ -49,7 +65,7 @@ exports.check_all = async (req, res) => {
 };
 exports.delete_all = async (req, res) => {
 
-    Product.deleteMany({ checked: true, owner: req.user.userId }, { multi: true }, (err, result) => {
+    await Product.deleteMany({ checked: true, owner: req.user.userId }, { multi: true }, (err, result) => {
 
         if (err) {
             res.status(500).send(err);

@@ -1,7 +1,8 @@
 import * as axios from 'axios';
 
-const token = JSON.parse(window.localStorage.getItem('userData')).token; 
-alert(token)
+const token = (window.localStorage.getItem('userData')) ? JSON.parse(window.localStorage.getItem('userData')).token :"no token";
+
+
 //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkMjMzYjQ5NTA0ODMwMmUzNWU0ZTAiLCJpYXQiOjE1OTg5NTE5NTYsImV4cCI6MTU5ODk1NTU1Nn0.vWs_IqWDXk3kfpWfdPet5P9Fr1Vanzi00F_HyrlnrKM";
 const instance = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
 
@@ -11,7 +12,7 @@ const instance = axios.create({ //axios.create sam vstraivaet vse nastroiki dla 
 
 });
 
-const instance2 = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
+const instanceAuth = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
     baseURL: 'http://localhost:3010/api',//bwithCredentials: true, //authorized = true    
 
 });
@@ -20,13 +21,13 @@ export const API = {
 
 
     singUpPost(email, password) {
-        return instance2.post("/register", { email: email, password: password })
+        return instanceAuth.post("/register", { email: email, password: password })
             .then(response => {
                 return response;
             });
     },
     authMe(email, password) {
-        return instance2.post("/login", { email: email, password: password })
+        return instanceAuth.post("/login", { email: email, password: password })
             .then(response => {
                 return response;
             });

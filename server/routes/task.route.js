@@ -13,7 +13,9 @@ const task_controller = require('../controllers/task.controller');
 
 router.get("/api/posts/", auth, task_controller.tasks_get);
 
-router.post("/api/posts/updated", auth, task_controller.create_update);
+router.post("/api/posts/create", auth, task_controller.create); 
+ 
+router.post("/api/posts/update", auth, task_controller.update); 
 
 router.post("/api/posts/:id/deleted", auth, task_controller.delete_one);
 

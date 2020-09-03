@@ -37,7 +37,6 @@ const Task = (props) => {
         }));
         taskChangeNotification();
       }
-
     }
     setLocalInputValue(localInputValue.trim());
   };

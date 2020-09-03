@@ -15,40 +15,33 @@ exports.tasks_get = async (req, res) => {
     }
 };
 
-exports.create_update = (req, res) => {
+exports.create = async (req, res) => {
 
-
-    Product.findOne({ _id: req.body.id, owner: req.user.userId }, async (err, post) => {
-
-
-        if (post) {
-
-            await Product.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
-                (err, result) => {
-                    if (err) {
-                        throw err;
-                    }
-                    res.send(result);
-                    return result;
-                });
-
-
-        } else {
-
-            const task = new Product({
-                _id: req.body.id,
-                input: req.body.input,
-                checked: req.body.checked,
-                owner: req.user.userId
-            });
-
-            task.save();
-            res.send(task)
-
-
-        }
+    const task = new Product({
+        _id: req.body.id,
+        input: req.body.input,
+        checked: req.body.checked,
+        owner: req.user.userId
     });
+
+    task.save();
+    res.send(task)
 };
+
+
+exports.update = async (req, res) => {
+
+    await Product.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
+        (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.send(result);
+            return result;
+        });
+};
+
+
 exports.delete_one = async (req, res) => {
 
     await Product.findOneAndDelete({ _id: req.params.id, owner: req.user.userId });

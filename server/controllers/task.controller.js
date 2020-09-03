@@ -2,7 +2,7 @@ const Product = require("../models/product.model");
 
 
 
-exports.product_get = async (req, res) => {
+exports.tasks_get = async (req, res) => {
     try {
         console.log(req.user.userId);
         const tasks = await Product.find({ owner: req.user.userId });

@@ -7,26 +7,6 @@ const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-
-const product_controller = require('../controllers/product.controller');
-
-
-
-router.get("/api/posts/", auth, product_controller.product_get);
-
-
-router.post("/api/posts/updated", auth, product_controller.create_update);
-
-
-router.post("/api/posts/:id/deleted", auth, product_controller.delete_one);
-
-router.put("/api/posts/all/checked", auth, product_controller.check_all);//checkall
-
-router.put("/api/posts/all/deleted", auth, product_controller.delete_all);//deleteall  
-
-
-/////////USERS//////////
-
 router.post(
     "/api/register",
     [

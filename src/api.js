@@ -1,6 +1,8 @@
 import * as axios from 'axios';
 
-const token = (window.localStorage.getItem('userData')) ? JSON.parse(window.localStorage.getItem('userData')).token :"no token";
+
+const token = (window.localStorage.getItem('userData')) ? JSON.parse(window.localStorage.getItem('userData')).token : "no token";
+console.log(`$@@@@@@@@@@@@@@${token}`)
 
 
 //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkMjMzYjQ5NTA0ODMwMmUzNWU0ZTAiLCJpYXQiOjE1OTg5NTE5NTYsImV4cCI6MTU5ODk1NTU1Nn0.vWs_IqWDXk3kfpWfdPet5P9Fr1Vanzi00F_HyrlnrKM";
@@ -32,8 +34,8 @@ export const API = {
                 return response;
             });
     },
-    getTasks() {
-        return instance.get("/")
+    getTasks(token1) {
+        return instance.get("/", {'authorization': token1 })
             .then(response => {
                 return response;
             });

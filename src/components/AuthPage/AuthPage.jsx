@@ -8,23 +8,28 @@ const AuthPage = (props) => {
   let [emailValue, setEmailValue] = useState();
   let [passwordValue, setPasswordValue] = useState();
 
-  const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext); 
+
   const userNotification = (value) =>
     props.toast.info(`${value}`, props.toastInf);
 
-  const signUp = async () => {
-    await API.singUpPost(emailValue, passwordValue);
-    userNotification("User created");
-  };
   const login = async () => {
     const resAuth = await API.authMe(emailValue, passwordValue);
-    await auth.login(
+    auth.login( 
       resAuth.data.token,
       resAuth.data.userId,
       resAuth.data.userEmail
-    );
-    props.onChangeTasks();
+    ); 
+    
+    
+    //props.onChangeTasks();
     userNotification("Login successfully");
+  };
+
+  const signUp = async () => {
+    await API.singUpPost(emailValue, passwordValue);
+    userNotification("User created"); 
+    login();
   };
 
   return (
@@ -36,6 +41,7 @@ const AuthPage = (props) => {
             onChange={(e) => setEmailValue(e.target.value)}
             value={emailValue}
             onKeyPress={(e) => (e.charCode === 13 ? login() : null)}
+            type="email"
             placeholder="email:"
           />
         </div>

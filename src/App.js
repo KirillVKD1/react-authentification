@@ -13,7 +13,8 @@ import { AuthContext } from './components/Context/AuthContext';
 const App = () => {
 
   const { token, login, logout, userId, userEmail } = useAuth();
-  const isAuth = !!token;//!! boolean  
+  const isAuth = !!token;//!! boolean   
+  console.log(`111111111${token}`)
 
   const [tasksArr, setTasks] = useState([]);
 
@@ -36,7 +37,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    onChangeTasks(); 
+    onChangeTasks();
 
   }, []);// componentDidMount 
 
@@ -51,6 +52,8 @@ const App = () => {
   }, [tasksArr]);
 
   if (!isAuth) {
+
+
     return (
       <>
         <AuthContext.Provider
@@ -79,7 +82,7 @@ const App = () => {
           <div className="background">
 
             <Input
-
+              onChangeTasks={onChangeTasks}
               token={token}
               setTasks={setTasks}
               tasksArr={tasksArr}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { API } from '../../api';
 import { AuthContext } from '../Context/AuthContext';
 
@@ -28,6 +28,7 @@ const Input = (props) => {
       }
     }
   };
+
   const checkAllTasks = (value) => {
     async function fetch() {
       let response = await API.checkAll(value);

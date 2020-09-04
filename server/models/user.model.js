@@ -1,9 +1,9 @@
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const schemaUser = new Schema({
+const schemaUser = new Schema({ 
+
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  tasks: [{ type: Types.ObjectId, ref: "Task" }]
 
 });
 

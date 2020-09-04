@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization; // Bearer TOKEN   
 
     if (!token) {
-      console.log("ne", token);
       return res.status(401).json({ message: 'not authorized!' });
 
     }

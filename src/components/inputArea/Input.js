@@ -31,7 +31,7 @@ const Input = (props) => {
 
   const checkAllTasks = (value) => {
     async function fetch() {
-      let response = await API.checkAll(value);
+      let response = await API.checkTasks(value);
       if (response.statusText === "OK") {
         props.setToggleAll(value);
       }

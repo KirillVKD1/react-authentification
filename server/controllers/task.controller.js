@@ -1,12 +1,8 @@
-const Product = require("../models/product.model");
+const Task = require("../models/task.model");
 
-
-
-exports.tasks_get = async (req, res) => {
+exports.get_all_tasks = async (req, res) => {
     try {
-        console.log(req.user.userId);
-        const tasks = await Product.find({ owner: req.user.userId });
-        res.json(tasks);
+        const tasks = await Task.find({ owner: req.user.userId });
         res.send(tasks)
 
     } catch (e) {
@@ -15,9 +11,9 @@ exports.tasks_get = async (req, res) => {
     }
 };
 
-exports.create = async (req, res) => {
+exports.create_task = async (req, res) => {
 
-    const task = new Product({
+    const task = new Task({
         _id: req.body.id,
         input: req.body.input,
         checked: req.body.checked,
@@ -28,10 +24,9 @@ exports.create = async (req, res) => {
     res.send(task)
 };
 
+exports.update_task = async (req, res) => {
 
-exports.update = async (req, res) => {
-
-    await Product.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
+    await Task.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
         (err, result) => {
             if (err) {
                 throw err;
@@ -41,13 +36,14 @@ exports.update = async (req, res) => {
         });
 };
 
+exports.delete_task = async (req, res) => {
 
-exports.delete_one = async (req, res) => {
-
-    await Product.findOneAndDelete({ _id: req.params.id, owner: req.user.userId });
+    await Task.findOneAndDelete({ _id: req.params.id, owner: req.user.userId });
 };
-exports.check_all = async (req, res) => {
-    Product.updateMany({ checked: !req.body.checked, owner: req.user.userId }, { $set: { checked: req.body.checked } }, { multi: true }, (err, result) => {
+
+exports.check_all_tasks = async (req, res) => { 
+
+    await Task.updateMany({ checked: !req.body.checked, owner: req.user.userId }, { $set: { checked: req.body.checked } }, { multi: true }, (err, result) => {
 
         if (err) {
             res.status(500).send(err);
@@ -56,9 +52,9 @@ exports.check_all = async (req, res) => {
         res.send(result)
     });
 };
-exports.delete_all = async (req, res) => {
+exports.delete_all_tasks = async (req, res) => {
 
-    await Product.deleteMany({ checked: true, owner: req.user.userId }, { multi: true }, (err, result) => {
+    await Task.deleteMany({ checked: true, owner: req.user.userId }, { multi: true }, (err, result) => {
 
         if (err) {
             res.status(500).send(err);

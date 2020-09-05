@@ -14,7 +14,7 @@ const AuthPage = (props) => {
     props.toast.info(`${value}`, props.toastInf);
 
   const login = async () => {
-    const resAuth = await API.authMe(emailValue, passwordValue);
+    const resAuth = await API.login(emailValue, passwordValue);
     auth.login( 
       resAuth.data.token,
       resAuth.data.userId,
@@ -27,7 +27,7 @@ const AuthPage = (props) => {
   };
 
   const signUp = async () => {
-    await API.singUpPost(emailValue, passwordValue);
+    await API.singUp(emailValue, passwordValue);
     userNotification("User created"); 
     login();
   };

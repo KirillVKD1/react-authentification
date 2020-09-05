@@ -14,7 +14,7 @@ const App = () => {
 
   const { token, login, logout, userId, userEmail } = useAuth();
   const isAuth = !!token;//!! boolean   
-  console.log(`111111111${token}`)
+ 
 
   const [tasksArr, setTasks] = useState([]);
 

@@ -1,16 +1,12 @@
 import * as axios from 'axios';
 
-
 const token = (window.localStorage.getItem('userData')) ? JSON.parse(window.localStorage.getItem('userData')).token : "no token";
 console.log(`$@@@@@@@@@@@@@@${token}`)
 
-
-//const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkMjMzYjQ5NTA0ODMwMmUzNWU0ZTAiLCJpYXQiOjE1OTg5NTE5NTYsImV4cCI6MTU5ODk1NTU1Nn0.vWs_IqWDXk3kfpWfdPet5P9Fr1Vanzi00F_HyrlnrKM";
 const instance = axios.create({ //axios.create sam vstraivaet vse nastroiki dla zaprosa na server, kotorie vpishem!!!
 
     baseURL: 'http://localhost:3010/api/posts',//bwithCredentials: true, //authorized = true    
     headers: { 'authorization': token },
-
 
 });
 
@@ -20,7 +16,6 @@ const instanceAuth = axios.create({ //axios.create sam vstraivaet vse nastroiki 
 });
 
 export const API = {
-
 
     singUpPost(email, password) {
         return instanceAuth.post("/register", { email: email, password: password })
@@ -35,19 +30,19 @@ export const API = {
             });
     },
     getTasks(token1) {
-        return instance.get("/", {'authorization': token1 })
+        return instance.get("/", { 'authorization': token1 })
             .then(response => {
                 return response;
             });
     },
-    postTask(input,) {
-        return instance.post("/updated", { input: input })//CREATE//UPDATE - input
+    createTask(input) {
+        return instance.post("/create", { input: input })
             .then(response => {
                 return response;
             });
     },
     updateTask(id, input, checked) {
-        return instance.post("/updated/", { id: id, input: input, checked: checked })//UNPDATE- checked
+        return instance.post("/update", { id: id, input: input, checked: checked })
             .then(response => {
                 return response;
             });

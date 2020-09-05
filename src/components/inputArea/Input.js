@@ -12,7 +12,7 @@ const Input = (props) => {
 
     if (inputValue.trim().length) {
 
-      let response = await API.postTask(inputValue.trim());
+      let response = await API.createTask(inputValue.trim());
 
       if (response.statusText === "OK") {
 

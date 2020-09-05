@@ -26,7 +26,7 @@ exports.create_task = async (req, res) => {
 
 exports.update_task = async (req, res) => {
 
-    await Task.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } },
+    await Task.findOneAndUpdate({ _id: req.body.id, owner: req.user.userId }, { $set: { input: req.body.input, checked: req.body.checked } }, { useFindAndModify: false },
         (err, result) => {
             if (err) {
                 throw err;
@@ -41,7 +41,7 @@ exports.delete_task = async (req, res) => {
     await Task.findOneAndDelete({ _id: req.params.id, owner: req.user.userId });
 };
 
-exports.check_all_tasks = async (req, res) => { 
+exports.check_all_tasks = async (req, res) => {
 
     await Task.updateMany({ checked: !req.body.checked, owner: req.user.userId }, { $set: { checked: req.body.checked } }, { multi: true }, (err, result) => {
 

@@ -1,7 +1,8 @@
-const { Schema, model, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
+
 const schemaTask = new Schema({
   input: String,
   checked: { type: Boolean, default: false },
-  owner: { type: Types.ObjectId, ref: 'User' },
+  owner: { type: String },
 });
 module.exports = model("Task", schemaTask);
